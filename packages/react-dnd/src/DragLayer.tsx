@@ -109,6 +109,19 @@ export default function DragLayer<RequiredProps, CollectedProps = {}>(
 
 			private receiveDragDropManager(dragDropManager: DragDropManager<any>) {
 				if (this.manager !== undefined) {
+					const monitor = this.manager.getMonitor()
+					if (this.unsubscribeFromOffsetChange === undefined) {
+						this.unsubscribeFromOffsetChange = monitor.subscribeToOffsetChange(
+							this.handleChange,
+						)
+					}
+
+					if (this.unsubscribeFromStateChange === undefined) {
+						this.unsubscribeFromStateChange = monitor.subscribeToStateChange(
+							this.handleChange,
+						)
+					}
+
 					return
 				}
 				this.manager = dragDropManager
